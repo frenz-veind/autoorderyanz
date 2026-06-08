@@ -1,4 +1,5 @@
 require('dotenv').config();
+app.set('trust proxy', 1);
 const express       = require('express');
 const mongoose      = require('mongoose');
 const session       = require('express-session');
