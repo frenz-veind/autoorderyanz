@@ -1,0 +1,96 @@
+<div class="page-header">
+  <h1 class="page-title">📊 Dashboard</h1>
+  <div class="page-sub">Realtime overview — YANZKHENZ Store</div>
+</div>
+
+<!-- STATS -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon blue">📦</div>
+    <div class="stat-info">
+      <div class="stat-num"><%= stats.totalOrders %></div>
+      <div class="stat-label">Total Order</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon green">✅</div>
+    <div class="stat-info">
+      <div class="stat-num"><%= stats.paidOrders %></div>
+      <div class="stat-label">Paid</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon yellow">⏳</div>
+    <div class="stat-info">
+      <div class="stat-num"><%= stats.pendingOrders %></div>
+      <div class="stat-label">Pending</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon purple">💰</div>
+    <div class="stat-info">
+      <div class="stat-num">Rp <%= stats.revenue.toLocaleString('id-ID') %></div>
+      <div class="stat-label">Total Revenue</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHART + RECENT -->
+<div class="dashboard-grid">
+  <div class="dash-card chart-card">
+    <div class="card-header">📈 Order 7 Hari Terakhir</div>
+    <canvas id="orderChart" height="220"></canvas>
+  </div>
+  <div class="dash-card">
+    <div class="card-header">🕐 Order Terbaru</div>
+    <div class="recent-orders">
+      <% if(recentOrders.length === 0) { %>
+        <div class="empty-state">Belum ada order</div>
+      <% } else { %>
+        <% recentOrders.forEach(o => { %>
+        <div class="recent-item">
+          <div class="ri-left">
+            <div class="ri-id"><%= o.orderId %></div>
+            <div class="ri-name"><%= o.customerName %></div>
+            <div class="ri-product"><%= o.product.name %></div>
+          </div>
+          <div class="ri-right">
+            <span class="status-badge status-<%= o.paymentStatus %>"><%= o.paymentStatus.toUpperCase() %></span>
+            <div class="ri-price">Rp <%= o.totalAmount.toLocaleString('id-ID') %></div>
+          </div>
+        </div>
+        <% }); %>
+      <% } %>
+    </div>
+    <a href="/admin/orders" class="btn-view-all">Lihat Semua →</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const chartData = <%- chartData %>;
+const ctx = document.getElementById('orderChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: chartData.map(d => d.label),
+    datasets: [{
+      label: 'Order',
+      data: chartData.map(d => d.count),
+      backgroundColor: 'rgba(30,111,255,0.35)',
+      borderColor: '#1E6FFF',
+      borderWidth: 2,
+      borderRadius: 8,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8BA5CC' } },
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8BA5CC', stepSize: 1 }, beginAtZero: true }
+    }
+  }
+});
+</script>

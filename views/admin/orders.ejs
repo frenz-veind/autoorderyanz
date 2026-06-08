@@ -1,0 +1,84 @@
+<div class="page-header">
+  <h1 class="page-title">📦 Semua Order</h1>
+  <div class="page-sub">Total <%= total %> order ditemukan</div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <form method="GET" action="/admin/orders" class="filter-form">
+    <input type="text" name="search" value="<%= search %>" placeholder="🔍 Cari nama, ID, WA, produk..." class="search-input">
+    <select name="status" class="select-filter">
+      <option value="all" <%= status==='all'?'selected':'' %>>Semua Status</option>
+      <option value="pending"  <%= status==='pending'?'selected':'' %>>Pending</option>
+      <option value="paid"     <%= status==='paid'?'selected':'' %>>Paid</option>
+      <option value="expired"  <%= status==='expired'?'selected':'' %>>Expired</option>
+      <option value="failed"   <%= status==='failed'?'selected':'' %>>Failed</option>
+    </select>
+    <button type="submit" class="btn-filter">Filter</button>
+    <a href="/admin/orders" class="btn-reset">Reset</a>
+  </form>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+  <% if(orders.length === 0) { %>
+    <div class="empty-state">📭 Tidak ada order ditemukan</div>
+  <% } else { %>
+  <table class="orders-table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Produk</th>
+        <th>Total</th>
+        <th>Metode</th>
+        <th>Status</th>
+        <th>Waktu</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% orders.forEach(o => { %>
+      <tr>
+        <td><span class="order-id-cell"><%= o.orderId %></span></td>
+        <td>
+          <div class="customer-cell">
+            <div class="c-name"><%= o.customerName %></div>
+            <div class="c-wa"><%= o.customerWhatsapp %></div>
+          </div>
+        </td>
+        <td>
+          <div class="product-cell">
+            <div class="p-name"><%= o.product.name %></div>
+            <div class="p-cat"><%= o.product.category %></div>
+          </div>
+        </td>
+        <td class="price-cell">Rp <%= o.totalAmount.toLocaleString('id-ID') %></td>
+        <td><span class="method-badge method-<%= o.paymentMethod.toLowerCase() %>"><%= o.paymentMethod %></span></td>
+        <td><span class="status-badge status-<%= o.paymentStatus %>"><%= o.paymentStatus.toUpperCase() %></span></td>
+        <td class="time-cell"><%= new Date(o.createdAt).toLocaleDateString('id-ID', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) %></td>
+        <td>
+          <div class="action-btns">
+            <% if(o.paymentStatus === 'pending') { %>
+            <button onclick="markPaid('<%= o._id %>')" class="btn-action green" title="Mark Paid">✅</button>
+            <% } %>
+            <a href="https://wa.me/<%= o.customerWhatsapp %>" target="_blank" class="btn-action wa" title="WA">💬</a>
+            <button onclick="deleteOrder('<%= o._id %>')" class="btn-action red" title="Hapus">🗑️</button>
+          </div>
+        </td>
+      </tr>
+    <% }); %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<!-- PAGINATION -->
+<% if(pages > 1) { %>
+<div class="pagination">
+  <% for(let i=1; i<=pages; i++) { %>
+    <a href="/admin/orders?page=<%= i %>&search=<%= search %>&status=<%= status %>"
+       class="page-btn <%= i===page?'active':'' %>"><%= i %></a>
+  <% } %>
+</div>
+<% } %>

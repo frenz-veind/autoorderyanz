@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YANZKHENZ — VPS Indonesia Auto Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span>YANZKHENZ</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#products">Produk</a>
+      <a href="#specs">Spesifikasi</a>
+      <a href="#payment">Pembayaran</a>
+      <a href="#contact">Kontak</a>
+    </div>
+    <div class="nav-right">
+      <a href="https://wa.me/6283180082295" target="_blank" class="btn-nav">💬 WhatsApp</a>
+      <button class="hamburger" id="hamburger">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇮🇩 VPS Indonesia #1</div>
+    <h1 class="hero-title">
+      Server Powerful<br>
+      <span class="gradient-text">Harga Terjangkau</span>
+    </h1>
+    <p class="hero-desc">
+      VPS Indonesia berkualitas tinggi dengan uptime 99.9%.<br>
+      Auto order, auto pay — langsung aktif dalam menit.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">800<small>Mbps</small></span><span class="stat-label">Uplink Speed</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">99.9<small>%</small></span><span class="stat-label">Uptime</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Bandwidth</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="#products" class="btn-primary">🛒 Order Sekarang</a>
+      <a href="https://t.me/yanzkhenz" target="_blank" class="btn-ghost">📱 Telegram</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="server-card">
+      <div class="server-led"></div>
+      <div class="server-info">
+        <div class="server-label">SERVER STATUS</div>
+        <div class="server-status"><span class="dot-green"></span>ONLINE</div>
+      </div>
+      <div class="server-bars">
+        <div class="bar-row"><span>CPU</span><div class="bar"><div class="bar-fill" style="width:42%"></div></div><span>42%</span></div>
+        <div class="bar-row"><span>RAM</span><div class="bar"><div class="bar-fill" style="width:61%"></div></div><span>61%</span></div>
+        <div class="bar-row"><span>SSD</span><div class="bar"><div class="bar-fill" style="width:28%"></div></div><span>28%</span></div>
+        <div class="bar-row"><span>NET</span><div class="bar"><div class="bar-fill" style="width:75%"></div></div><span>75%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS BANNER -->
+<section class="specs-banner" id="specs">
+  <div class="container">
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-icon">🔧</div><div class="spec-text"><strong>Intel Xeon E5 v4</strong><small>2.60–2.90 GHz</small></div></div>
+      <div class="spec-item"><div class="spec-icon">💾</div><div class="spec-text"><strong>SSD NVMe</strong><small>50GB – 200GB</small></div></div>
+      <div class="spec-item"><div class="spec-icon">🌐</div><div class="spec-icon">🌐</div><div class="spec-text"><strong>800 Mbps Uplink</strong><small>Unlimited Bandwidth</small></div></div>
+      <div class="spec-item"><div class="spec-icon">📍</div><div class="spec-text"><strong>Lokasi Indonesia</strong><small>Low Latency</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">PAKET VPS</div>
+      <h2>Pilih Paket <span class="gradient-text">Terbaik Anda</span></h2>
+      <p>Semua paket sudah termasuk SSD, Unlimited Bandwidth & Support 24/7</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- NAT PACKAGES -->
+      <div class="product-category-title">🖥️ Paket VPS NAT</div>
+
+      <% const natPackages = [
+        { name:'Starter NAT', ram:'2GB', cpu:'1 vCPU', price:40000, popular:false },
+        { name:'Basic NAT',   ram:'4GB', cpu:'2 vCPU', price:80000, popular:false },
+        { name:'Pro NAT',     ram:'8GB', cpu:'4 vCPU', price:120000, popular:true },
+        { name:'Business NAT',ram:'16GB',cpu:'8 vCPU', price:210000, popular:false },
+        { name:'Power NAT',   ram:'32GB',cpu:'8 vCPU', price:290000, popular:false },
+        { name:'Ultra NAT',   ram:'64GB',cpu:'16 vCPU',price:550000, popular:false },
+        { name:'Max NAT',     ram:'64GB',cpu:'32 vCPU',price:650000, popular:false }
+      ]; %>
+
+      <% natPackages.forEach(pkg => { %>
+      <div class="product-card <%= pkg.popular ? 'popular' : '' %>" data-aos="fade-up">
+        <% if(pkg.popular) { %><div class="popular-badge">⭐ TERPOPULER</div><% } %>
+        <div class="product-header">
+          <div class="product-icon">🖥️</div>
+          <div>
+            <div class="product-name"><%= pkg.name %></div>
+            <div class="product-cat">VPS NAT · Indonesia</div>
+          </div>
+        </div>
+        <div class="product-specs">
+          <div class="spec-tag">💾 RAM <%= pkg.ram %></div>
+          <div class="spec-tag">⚡ <%= pkg.cpu %></div>
+          <div class="spec-tag">💽 SSD NVMe</div>
+          <div class="spec-tag">🌐 ∞ BW</div>
+        </div>
+        <div class="product-price">
+          <span class="price-amount">Rp <%= pkg.price.toLocaleString('id-ID') %></span>
+          <span class="price-period">/bulan</span>
+        </div>
+        <button class="btn-order"
+          data-name="<%= pkg.name %>"
+          data-cat="VPS NAT"
+          data-price="<%= pkg.price %>"
+          data-specs="RAM <%= pkg.ram %> | <%= pkg.cpu %> | SSD NVMe | ∞ Bandwidth"
+          onclick="openOrderModal(this)">
+          🛒 Order Sekarang
+        </button>
+      </div>
+      <% }); %>
+
+      <!-- DEDICATED IP -->
+      <div class="product-category-title" style="grid-column:1/-1;margin-top:20px;">🌐 Add-On & Jasa</div>
+
+      <div class="product-card addon-card">
+        <div class="product-header">
+          <div class="product-icon">🌐</div>
+          <div>
+            <div class="product-name">Dedicated IP Indonesia</div>
+            <div class="product-cat">Add-On · Per bulan</div>
+          </div>
+        </div>
+        <div class="product-specs">
+          <div class="spec-tag">📍 IP Dedicated</div>
+          <div class="spec-tag">🇮🇩 Indonesia</div>
+        </div>
+        <div class="product-price">
+          <span class="price-amount">Rp 55.000</span>
+          <span class="price-period">/bulan</span>
+        </div>
+        <button class="btn-order"
+          data-name="Dedicated IP Indonesia"
+          data-cat="Add-On"
+          data-price="55000"
+          data-specs="IP Dedicated Indonesia"
+          onclick="openOrderModal(this)">🛒 Order</button>
+      </div>
+
+      <div class="product-card addon-card">
+        <div class="product-header">
+          <div class="product-icon">⚙️</div>
+          <div>
+            <div class="product-name">Install Pterodactyl NAT</div>
+            <div class="product-cat">Jasa Install · Sekali</div>
+          </div>
+        </div>
+        <div class="product-specs">
+          <div class="spec-tag">🐦 Pterodactyl</div>
+          <div class="spec-tag">🖥️ VPS NAT</div>
+        </div>
+        <div class="product-price">
+          <span class="price-amount">Rp 25.000</span>
+          <span class="price-period">/sekali</span>
+        </div>
+        <button class="btn-order"
+          data-name="Jasa Install Pterodactyl NAT"
+          data-cat="Jasa Install"
+          data-price="25000"
+          data-specs="Install Pterodactyl Panel di VPS NAT"
+          onclick="openOrderModal(this)">🛒 Order</button>
+      </div>
+
+      <div class="product-card addon-card">
+        <div class="product-header">
+          <div class="product-icon">⚙️</div>
+          <div>
+            <div class="product-name">Install Pterodactyl Dedicated</div>
+            <div class="product-cat">Jasa Install · Sekali</div>
+          </div>
+        </div>
+        <div class="product-specs">
+          <div class="spec-tag">🐦 Pterodactyl</div>
+          <div class="spec-tag">🌐 Dedicated</div>
+        </div>
+        <div class="product-price">
+          <span class="price-amount">Rp 10.000</span>
+          <span class="price-period">/sekali</span>
+        </div>
+        <button class="btn-order"
+          data-name="Jasa Install Pterodactyl Dedicated"
+          data-cat="Jasa Install"
+          data-price="10000"
+          data-specs="Install Pterodactyl Panel di VPS Dedicated"
+          onclick="openOrderModal(this)">🛒 Order</button>
+      </div>
+
+      <!-- VPS TRIAL -->
+      <div class="product-category-title" style="grid-column:1/-1;margin-top:20px;">🎯 VPS Trial</div>
+
+      <div class="product-card trial-card popular">
+        <div class="popular-badge">🔥 TRIAL</div>
+        <div class="product-header">
+          <div class="product-icon">🎯</div>
+          <div>
+            <div class="product-name">VPS Trial</div>
+            <div class="product-cat">Trial · Terbatas</div>
+          </div>
+        </div>
+        <div class="product-specs">
+          <div class="spec-tag">💾 RAM 8GB</div>
+          <div class="spec-tag">⚡ 4 vCPU</div>
+          <div class="spec-tag">🐦 Free Panel Install</div>
+          <div class="spec-tag">⏱️ Trial</div>
+        </div>
+        <div class="product-price">
+          <span class="price-amount">Rp 13.000</span>
+          <span class="price-period">/trial</span>
+        </div>
+        <button class="btn-order"
+          data-name="VPS Trial"
+          data-cat="VPS Trial"
+          data-price="13000"
+          data-specs="RAM 8GB | 4 vCPU | Free Install Panel"
+          onclick="openOrderModal(this)">🛒 Coba Sekarang</button>
+      </div>
+
+    </div><!-- /products-grid -->
+
+    <!-- USE CASES -->
+    <div class="usecases">
+      <div class="usecase-title">✅ Cocok Untuk</div>
+      <div class="usecase-grid">
+        <div class="uc-item">🌐 Website</div>
+        <div class="uc-item">🐦 Pterodactyl Panel</div>
+        <div class="uc-item">💬 Bot WhatsApp</div>
+        <div class="uc-item">📱 Bot Telegram</div>
+        <div class="uc-item">🔌 API / Backend</div>
+        <div class="uc-item">🗄️ Database</div>
+        <div class="uc-item">📦 Hosting Aplikasi</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PAYMENT INFO -->
+<section class="payment-section" id="payment">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">PEMBAYARAN</div>
+      <h2>Metode <span class="gradient-text">Pembayaran</span></h2>
+    </div>
+    <div class="payment-cards">
+      <div class="payment-card">
+        <div class="pay-icon">📱</div>
+        <div class="pay-name">DANA</div>
+        <div class="pay-number">089518461275</div>
+        <button onclick="copyText('089518461275')" class="btn-copy">📋 Salin Nomor</button>
+      </div>
+      <div class="payment-card featured">
+        <div class="pay-icon">⚡</div>
+        <div class="pay-name">QRIS Auto Pay</div>
+        <div class="pay-desc">Bayar via QR — otomatis terdeteksi & order diproses instan!</div>
+        <div class="pay-badge">🤖 Auto Payment</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">KONTAK</div>
+      <h2>Hubungi <span class="gradient-text">Kami</span></h2>
+    </div>
+    <div class="contact-grid">
+      <a href="https://wa.me/6283180082295" target="_blank" class="contact-card wa">
+        <span class="cc-icon">💬</span>
+        <div class="cc-info">
+          <div class="cc-name">WhatsApp</div>
+          <div class="cc-handle">+62 831-8008-2295</div>
+        </div>
+        <span class="cc-arrow">→</span>
+      </a>
+      <a href="https://t.me/yanzkhenz" target="_blank" class="contact-card tg">
+        <span class="cc-icon">✈️</span>
+        <div class="cc-info">
+          <div class="cc-name">Telegram</div>
+          <div class="cc-handle">@yanzkhenz</div>
+        </div>
+        <span class="cc-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo">⚡ YANZKHENZ</div>
+    <div class="footer-desc">Platform VPS Indonesia terpercaya dengan auto order & auto payment.</div>
+    <div class="footer-links">
+      <a href="https://wa.me/6283180082295" target="_blank">WhatsApp</a>
+      <a href="https://t.me/yanzkhenz" target="_blank">Telegram</a>
+      <a href="/admin/login">Admin</a>
+    </div>
+    <div class="footer-copy">© 2024 YANZKHENZ. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+      <div class="modal-title">🛒 Form Order</div>
+      <div class="modal-product-name" id="modalProductName">—</div>
+    </div>
+
+    <div class="modal-body" id="modalBody">
+      <!-- STEP 1: Form -->
+      <div id="step1">
+        <div class="price-display">
+          <span class="price-label">Total</span>
+          <span class="price-value" id="modalPrice">—</span>
+        </div>
+
+        <div class="form-group">
+          <label>Nama Lengkap *</label>
+          <input type="text" id="fName" placeholder="Nama Anda" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label>No. WhatsApp *</label>
+          <input type="text" id="fWa" placeholder="628xxx" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label>Email (opsional)</label>
+          <input type="email" id="fEmail" placeholder="email@example.com" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Catatan</label>
+          <textarea id="fNotes" placeholder="Catatan tambahan..." class="form-input" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Metode Pembayaran *</label>
+          <div class="pay-methods">
+            <label class="pay-method-opt">
+              <input type="radio" name="payMethod" value="QRIS" checked>
+              <span class="pay-opt-box"><span class="pay-opt-icon">⚡</span> QRIS Auto</span>
+            </label>
+            <label class="pay-method-opt">
+              <input type="radio" name="payMethod" value="DANA">
+              <span class="pay-opt-box"><span class="pay-opt-icon">📱</span> DANA</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- DANA info -->
+        <div id="danaInfo" class="dana-info" style="display:none;">
+          <div class="dana-box">
+            <div class="dana-label">Transfer ke DANA:</div>
+            <div class="dana-number">089518461275</div>
+            <div class="dana-name">a/n YANZKHENZ</div>
+          </div>
+        </div>
+
+        <button class="btn-primary w100" id="btnSubmitOrder" onclick="submitOrder()">
+          ⚡ Proses Order
+        </button>
+      </div>
+
+      <!-- STEP 2: QRIS Payment -->
+      <div id="step2" style="display:none;">
+        <div class="qris-section">
+          <div class="qris-header">
+            <div class="qris-title">Scan QR untuk Bayar</div>
+            <div class="qris-amount" id="qrisAmount">—</div>
+          </div>
+          <div class="qris-img-wrap">
+            <img id="qrisImg" src="" alt="QR Code" class="qris-img">
+            <div class="qris-overlay" id="qrisOverlay">
+              <div class="qris-loading">⏳ Memuat QR...</div>
+            </div>
+          </div>
+          <div class="qris-timer" id="qrisTimer">⏱ Sisa waktu: <span id="timerVal">30:00</span></div>
+          <div class="qris-status" id="qrisStatus">
+            <div class="status-pulse"></div>
+            <span id="statusText">Menunggu pembayaran...</span>
+          </div>
+          <div class="qris-order-id">Order ID: <strong id="qrisOrderId">—</strong></div>
+          <div class="qris-hint">App Dana, GoPay, OVO, LinkAja, Shopee Pay, dll.</div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Success -->
+      <div id="step3" style="display:none;">
+        <div class="success-section">
+          <div class="success-icon">✅</div>
+          <div class="success-title">Pembayaran Berhasil!</div>
+          <div class="success-desc">Order <strong id="successOrderId">—</strong> telah dikonfirmasi.<br>Tim kami akan segera menghubungi Anda.</div>
+          <div class="success-actions">
+            <a id="btnSuccessWa" href="#" target="_blank" class="btn-primary">💬 Konfirmasi via WA</a>
+            <a id="btnSuccessTg" href="#" target="_blank" class="btn-ghost">✈️ Via Telegram</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

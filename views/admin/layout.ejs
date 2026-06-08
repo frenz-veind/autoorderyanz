@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — YANZKHENZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-icon">⚡</span>
+    <span>YANZKHENZ</span>
+  </div>
+  <div class="sidebar-sub">Admin Panel</div>
+
+  <nav class="sidebar-nav">
+    <a href="/admin/dashboard" class="nav-item <%= page === 'dashboard' ? 'active' : '' %>">
+      <span class="ni">📊</span> Dashboard
+    </a>
+    <a href="/admin/orders" class="nav-item <%= page_name === 'orders' ? 'active' : '' %>">
+      <span class="ni">📦</span> Semua Order
+    </a>
+    <a href="/" target="_blank" class="nav-item">
+      <span class="ni">🌐</span> Lihat Toko
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="admin-info">
+      <div class="admin-avatar">👤</div>
+      <div>
+        <div class="admin-name"><%= admin.username %></div>
+        <div class="admin-role">Administrator</div>
+      </div>
+    </div>
+    <a href="/admin/logout" class="btn-logout">🚪 Logout</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="admin-main">
+  <div class="topbar">
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <div class="topbar-title" id="topbarTitle">Admin Panel</div>
+    <div class="topbar-right">
+      <div class="online-dot"></div>
+      <span class="online-text">Online</span>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <%- body %>
+  </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
