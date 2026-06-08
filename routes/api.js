@@ -1,13 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const axios = require('axios');
-const Order = require('../models/Order');
-const { v4: uuidv4 } = require('uuid');
+const router  = express.Router();
+const axios   = require('axios');
+const Order   = require('../models/Order');
 
-const API_BASE = process.env.API_BASE_URL;
-const API_KEY  = process.env.API_KEY;
+const XENDIT_SECRET = process.env.API_KEY;
+const XENDIT_AUTH   = Buffer.from(XENDIT_SECRET + ':').toString('base64');
 
-// ── POST /api/order/create ──────────────────────────────────────
 router.post('/order/create', async (req, res) => {
   try {
     const {
@@ -33,31 +31,30 @@ router.post('/order/create', async (req, res) => {
       paymentMethod,
       totalAmount: Number(productPrice),
       notes: notes || '',
-      expiredAt: new Date(Date.now() + 30 * 60 * 1000) // 30 min
+      expiredAt: new Date(Date.now() + 30 * 60 * 1000)
     };
 
-    // QRIS auto payment
     if (paymentMethod === 'QRIS') {
       const qrisRes = await axios.post(
-        `${API_BASE}/deposit/create`,
-        { amount: Number(productPrice) },
-        { headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' } }
+        'https://api.xendit.co/qr_codes',
+        {
+          reference_id: 'order-' + Date.now(),
+          type: 'DYNAMIC',
+          currency: 'IDR',
+          amount: Number(productPrice)
+        },
+        { headers: { 'Authorization': 'Basic ' + XENDIT_AUTH, 'Content-Type': 'application/json' } }
       );
 
-      if (!qrisRes.data.success) {
-        return res.status(500).json({ success: false, message: 'Gagal membuat QRIS' });
-      }
-
-      const dep = qrisRes.data.deposit;
-      orderData.qrisDepositId = dep.id;
-      orderData.qrisImage     = dep.qr_image;
+      orderData.qrisDepositId = qrisRes.data.id;
+      orderData.qrisImage     = qrisRes.data.qr_string;
     }
 
     const order = new Order(orderData);
     await order.save();
 
     res.json({
-      success: true,
+      success:     true,
       orderId:     order.orderId,
       qrisImage:   order.qrisImage,
       depositId:   order.qrisDepositId,
@@ -71,7 +68,6 @@ router.post('/order/create', async (req, res) => {
   }
 });
 
-// ── POST /api/payment/check ─────────────────────────────────────
 router.post('/payment/check', async (req, res) => {
   try {
     const { orderId, depositId } = req.body;
@@ -83,23 +79,18 @@ router.post('/payment/check', async (req, res) => {
       return res.json({ success: true, status: 'paid', orderId });
     }
 
-    // Check via QRIS API
-    const checkRes = await axios.post(
-      `${API_BASE}/deposit/status`,
-      { deposit_id: depositId || order.qrisDepositId },
-      { headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' } }
+    const checkRes = await axios.get(
+      'https://api.xendit.co/qr_codes/' + (depositId || order.qrisDepositId),
+      { headers: { 'Authorization': 'Basic ' + XENDIT_AUTH } }
     );
 
-    const apiStatus = checkRes.data.status;
-
-    if (apiStatus === 'success') {
+    if (checkRes.data.status === 'ACTIVE' && checkRes.data.payments && checkRes.data.payments.length > 0) {
       order.paymentStatus = 'paid';
       order.paidAt = new Date();
       await order.save();
       return res.json({ success: true, status: 'paid', orderId });
     }
 
-    // Check expiry
     if (order.expiredAt && new Date() > order.expiredAt) {
       order.paymentStatus = 'expired';
       await order.save();
@@ -114,19 +105,10 @@ router.post('/payment/check', async (req, res) => {
   }
 });
 
-// ── GET /api/balance ────────────────────────────────────────────
 router.get('/balance', async (req, res) => {
-  try {
-    const r = await axios.post(`${API_BASE}/balance`, {}, {
-      headers: { 'x-api-key': API_KEY }
-    });
-    res.json({ success: true, data: r.data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
+  res.json({ success: true, data: { balance: 'Xendit Test Mode' } });
 });
 
-// ── GET /api/order/:orderId ─────────────────────────────────────
 router.get('/order/:orderId', async (req, res) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId });
